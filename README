@@ -1,0 +1,4 @@
+This is a quick utility for testing basic UNIX sockets in hobby OSes.
+It will print "Success" on success, else it will say what went wrong.
+
+If by any chance you wanted to borrow the code (its awful, dont), its fine.
