@@ -5,7 +5,7 @@
 ifeq ($(origin CC), default)
 	CC := cc
 endif
-CFLAGS  ?= -O2 -pipe -g
+CFLAGS  ?= -O2 -pipe -g -Wall
 PREFIX  ?= /usr/local
 
 # Targets and their rules.
