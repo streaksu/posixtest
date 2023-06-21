@@ -1,3 +1,21 @@
+/*
+    socket.c: Socket-related tests.
+    Copyright (C) 2023 streaksu
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -6,12 +24,13 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <entrypoints.h>
 
 const char *server_bind = "serverbind.sock";
 const char *client_bind = "clientbind.sock";
 const char *tmp_file    = "randomfiletrustme";
 
-int test_dgram_simple() {
+int test_dgram_simple(void) {
     // Create the socket and bind.
     struct sockaddr_un addr;
     addr.sun_family = AF_UNIX;
@@ -86,7 +105,7 @@ int test_dgram_simple() {
     }
 }
 
-int test_dgram_fd() {
+int test_dgram_fd(void) {
     // Create the socket and bind.
     struct sockaddr_un addr;
     addr.sun_family = AF_UNIX;
@@ -189,7 +208,7 @@ int test_dgram_fd() {
     }
 }
 
-int test_stream_simple() {
+int test_stream_simple(void) {
     int server = socket(AF_UNIX, SOCK_STREAM, 0);
     if (server < 0) {
         perror("Could not create socket");
@@ -261,14 +280,4 @@ int test_stream_simple() {
         unlink(server_bind);
         return 1;
     }
-}
-
-#define PASS_STR "\e[1;32mPASSED\e[0m"
-#define FAIL_STR "\e[1;31mFAILED\e[0m"
-
-int main() {
-    puts("Testing AF_UNIX");
-    printf("Testing SOCK_STREAM simple message: %s\n", test_stream_simple() ? PASS_STR : FAIL_STR);
-    printf("Testing SOCK_DGRAM simple message:  %s\n", test_dgram_simple()  ? PASS_STR : FAIL_STR);
-    printf("Testing SOCK_DGRAM passing an fd:   %s\n", test_dgram_fd()      ? PASS_STR : FAIL_STR);
 }
